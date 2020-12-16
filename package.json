@@ -1,0 +1,24 @@
+{
+  "name": "socket-io",
+  "version": "1.0.0",
+  "description": "Socket.io implementation",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon ./server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webknet/socket-io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webknet/socket-io/issues"
+  },
+  "homepage": "https://github.com/webknet/socket-io#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.4"
+  }
+}
