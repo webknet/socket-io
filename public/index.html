@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Socket example </title>
-    <script src="/socket.io/socket.io.js"></script>    
-    <script src="app.js"></script>
+    <!-- CSS only -->
+    <link defer href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script defer src="/socket.io/socket.io.js"></script>    
+    <script defer src="app.js"></script>
 </head>
 <body>
-    <h1>Page initial</h1>
+    <div class="container">
+        <h1>Socket.IO</h1>
+        <div class="alert alert-success">
+            socked.id:  <strong id="desc"></strong>
+        </div>
+        
+        <div style="padding-top: 10px;">
+            <label for="msg">Message</label>
+            <input class="form-control" id="msg" type="text"><br>
+            <button class="btn btn-primary" onclick="onClick()">Send Message</button>
+            
+        </div>
+    </div>
 </body>
 </html>
