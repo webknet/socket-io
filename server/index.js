@@ -9,6 +9,8 @@ server.listen(port, () => console.log(`App listining on port ${ port }`))
 
 app.use(express.static('public'))
 
+const _path = path.join(__dirname, '../public')
+
 // app.get('/', (req, res) => {
 //     //res.send('Hello world !!')
 //     res.render('index')
@@ -20,6 +22,10 @@ app.use(express.static('public'))
 
 
 io.on('connection', socket => {
+    socket.on('add user', user => {
+        socket.userName = user
+        socket.broadcast.emit('user joined', user)
+    })
     console.log('connected', socket.id)
     //socket.emit('hello', 'world')
     socket.on('message', msg => {

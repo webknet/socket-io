@@ -12,7 +12,35 @@
 <body>
     <div class="container">
         <h1>Socket.IO</h1>
-        <div class="alert alert-success">
+        <div class="row">
+            <div class="col-12 col-sm-8">
+                <h2>Chat</h2>
+                <div>
+                    <label for="messageSend">Message</label>
+                    <input id="messageSend" type="text" class="form-control mb-2">  
+                    <button class="btn btn-primary">Send</button>
+                </div>
+                <div class="card mt-4">
+                    <h6 class="card-subtitle mb-2 text-muted">messages</h6>
+                </div>                
+            </div>
+            <div class="col-12 col-sm-4">
+                <div id="login">
+                    <h2>Login</h2>
+                    <label for="inputLogin">Nick name</label>
+                    <input itemref="inputLogin" type="text" class="form-control mb-2">
+                    <button class="btn btn-success">Login</button>
+                </div>
+                <div id="usersCard" class="card mt-4">
+                    <h6 class="card-subtitle mb-2 text-muted">users</h6>
+                    
+                    <div class="badge mb-1 bg-primary">Sabino</div>
+                    <div class="badge mb-1 bg-primary">Jorge</div>
+                </div> 
+            </div>
+        </div>
+
+        <!-- <div class="alert alert-success">
             socked.id:  <strong id="desc"></strong>
         </div>
         
@@ -20,8 +48,11 @@
             <label for="msg">Message</label>
             <input class="form-control" id="msg" type="text"><br>
             <button class="btn btn-primary" onclick="onClick()">Send Message</button>
-            
+            <button class="btn btn-success" onclick="addUser()">Add user</button>
         </div>
+        <div id="login">
+            <input id="userName" type="text" class="form-control">
+        </div> -->
     </div>
 </body>
 </html>
