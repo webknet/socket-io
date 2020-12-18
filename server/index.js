@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+const { v4: uuidv4 } = require('uuid')
 const port = process.env.PORT || 3000
 
 server.listen(port, () => console.log(`App listining on port ${ port }`))
@@ -11,25 +12,28 @@ app.use(express.static('public'))
 
 const _path = path.join(__dirname, '../public')
 
-// app.get('/', (req, res) => {
-//     //res.send('Hello world !!')
-//     res.render('index')
-// })
-
-// app.get('/:room', (req, res) => {
-//     res.send(req.params)
-// })
-
+let users = []
 
 io.on('connection', socket => {
-    socket.on('add user', user => {
-        socket.userName = user
-        socket.broadcast.emit('user joined', user)
+    let id = uuidv4()
+    socket.emit('users on', users) 
+    
+    socket.on('new user', userName => {    
+        socket.user = userName
+        socket.broadcast.emit('user joined',{ userName, id })
     })
-    console.log('connected', socket.id)
-    //socket.emit('hello', 'world')
+    
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('user left', id)
+    })
+
+   
     socket.on('message', msg => {
         console.log(msg, socket.id)
     })
 })
+
+function formatMessage() {
+    
+}
 

@@ -15,24 +15,30 @@
         <div class="row">
             <div class="col-12 col-sm-8">
                 <h2>Chat</h2>
-                <div>
+                <div class="card mt-4" style="height: 400px;">
+                    <h6 class="card-subtitle m-2 text-muted">messages</h6>
+                    <div class="card p-3 m-2">
+                        <h6 class="card-subtitle text-muted">Sabino</h6>
+                        <p class="card-text">
+                            this is my message
+                        </p>
+                    </div>
+                </div>                
+                <form id="frmMsg">
                     <label for="messageSend">Message</label>
                     <input id="messageSend" type="text" class="form-control mb-2">  
-                    <button class="btn btn-primary">Send</button>
-                </div>
-                <div class="card mt-4">
-                    <h6 class="card-subtitle mb-2 text-muted">messages</h6>
-                </div>                
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </form>
             </div>
             <div class="col-12 col-sm-4">
                 <div id="login">
                     <h2>Login</h2>
                     <label for="inputLogin">Nick name</label>
-                    <input itemref="inputLogin" type="text" class="form-control mb-2">
-                    <button class="btn btn-success">Login</button>
+                    <input id="inputLogin" type="text" class="form-control mb-2">
+                    <button onclick="login()" class="btn btn-success">Login</button>
                 </div>
                 <div id="usersCard" class="card mt-4">
-                    <h6 class="card-subtitle mb-2 text-muted">users</h6>
+                    <h6 class="card-subtitle m-2 text-muted">users</h6>
                     
                     <div class="badge mb-1 bg-primary">Sabino</div>
                     <div class="badge mb-1 bg-primary">Jorge</div>
