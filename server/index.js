@@ -21,6 +21,7 @@ io.on('connection', socket => {
     socket.on('new user', userName => {    
         socket.user = userName
         socket.broadcast.emit('user joined',{ userName, id })
+        socket.broadcast.emit('message',formatMessage('Chat socketIO', `${userName} just joined`,id))
     })
     
     socket.on('disconnect', () => {
@@ -33,7 +34,14 @@ io.on('connection', socket => {
     })
 })
 
-function formatMessage() {
-    
+function formatMessage(userName, message, userId) {
+    const _date = new Date()
+    const msg = {
+        userName,
+        userId,
+        msg: message,
+        time: `${ _date.getHours()}:${ _date.getMinutes()}`
+    }
+    return msg
 }
 

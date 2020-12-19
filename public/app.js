@@ -2,7 +2,7 @@ const socket = io('/')
 
 const usersCard = document.getElementById('usersCard')
 const userName = document.getElementById('inputLogin')
-
+const messages = document.getElementById('messages')
 
 socket.on('connect', () => {    
     console.log(socket.id)
@@ -11,11 +11,10 @@ socket.on('connect', () => {
 })
 
 socket.on('message', arg => {
-    console.log(arg)
+    addMessage(arg)
 })
 socket.on('user joined', userName => {
-    console.log(userName)
-    createUserCard(userName)
+    console.log(userName)   
 })
 
 socket.on('user left', id => {
@@ -23,9 +22,7 @@ socket.on('user left', id => {
 })
 
 function login() {
-    //socket.userName = userName.value 
     socket.emit('new user', userName.value)
-    console.log(socket)
 }
 
 function addUser() {
@@ -44,6 +41,7 @@ function createUserCard(user) {
 
 function removeUserCard(id) {
     let card = document.getElementById(id)
+    if (!card) return
     card.classList.add('bg-danger')
     card.innerText = `${ card.innerText } lef chat.`
     setTimeout(() => {        
@@ -51,6 +49,18 @@ function removeUserCard(id) {
     }, 2000);
 }
 
-function addMessage() {
-
+function addMessage(msg) {
+    const div = document.createElement('div')
+    div.id = msg.userId
+    let template = `
+            <h6 class="card-subtitle text-muted">
+                ${ msg.userName } 
+                <span class="badge bg-light text-dark">${msg.time}</span></h6>
+            <p class="card-text">
+                ${ msg.msg }
+            </p>
+        `
+    div.classList.add('card', 'p-3', 'm-2')
+    div.innerHTML = template
+    messages.append(div)
 }
