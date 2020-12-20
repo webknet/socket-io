@@ -16,12 +16,13 @@ let users = []
 
 io.on('connection', socket => {
     let id = uuidv4()
-    socket.emit('users on', users) 
+    socket.emit('logged users', users) 
     
     socket.on('new user', userName => {    
         socket.user = userName
         socket.broadcast.emit('user joined',{ userName, id })
-        socket.broadcast.emit('message',formatMessage('Chat socketIO', `${userName} just joined`,id))
+        socket.broadcast.emit('message',formatMessage('Chat socketIO', `${userName} just joined`))
+        users.push({ userName, id })
     })
     
     socket.on('disconnect', () => {
@@ -30,15 +31,14 @@ io.on('connection', socket => {
 
    
     socket.on('message', msg => {
-        console.log(msg, socket.id)
+        io.emit('message', formatMessage(socket.user, msg))
     })
 })
 
-function formatMessage(userName, message, userId) {
+function formatMessage(userName, message) {
     const _date = new Date()
     const msg = {
         userName,
-        userId,
         msg: message,
         time: `${ _date.getHours()}:${ _date.getMinutes()}`
     }

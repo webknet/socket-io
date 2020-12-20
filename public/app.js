@@ -3,18 +3,20 @@ const socket = io('/')
 const usersCard = document.getElementById('usersCard')
 const userName = document.getElementById('inputLogin')
 const messages = document.getElementById('messages')
+const connected = false
 
-socket.on('connect', () => {    
-    console.log(socket.id)
-    socket.userName = 'Sabino'
-    //setText.innerText = socket.id
+socket.on('logged users', users => {    
+    users.forEach(user => {
+        createUserCard(user)
+    });
 })
 
 socket.on('message', arg => {
     addMessage(arg)
 })
-socket.on('user joined', userName => {
-    console.log(userName)   
+socket.on('user joined', user => {
+    console.log(userName)  
+    createUserCard(user) 
 })
 
 socket.on('user left', id => {
@@ -51,7 +53,6 @@ function removeUserCard(id) {
 
 function addMessage(msg) {
     const div = document.createElement('div')
-    div.id = msg.userId
     let template = `
             <h6 class="card-subtitle text-muted">
                 ${ msg.userName } 
@@ -64,3 +65,11 @@ function addMessage(msg) {
     div.innerHTML = template
     messages.append(div)
 }
+
+const frm = document.getElementById('frmMsg')
+frm.addEventListener('submit', e => {
+    e.preventDefault()
+    let input = e.target.elements.messageSend
+    console.log(input.value)
+    socket.emit('message', input.value)
+})
