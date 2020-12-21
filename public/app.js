@@ -1,8 +1,15 @@
 const socket = io('/')
 
-const usersCard = document.getElementById('usersCard')
-const userName = document.getElementById('inputLogin')
-const messages = document.getElementById('messages')
+const $usersCard = document.getElementById('usersCard')
+const $userName = document.getElementById('inputLogin')
+const $messages = document.getElementById('messages')
+const $frm = document.getElementById('frmMsg')
+const $login = document.getElementById('login')
+const $logged = document.querySelector('.logged-in')
+
+$frm.style.visibility = 'hidden'
+$logged.style.display = 'none'
+
 const connected = false
 
 socket.on('logged users', users => {    
@@ -11,24 +18,19 @@ socket.on('logged users', users => {
     });
 })
 
-socket.on('message', arg => {
-    addMessage(arg)
-})
-socket.on('user joined', user => {
-    console.log(userName)  
-    createUserCard(user) 
-})
+socket.on('message', arg => addMessage(arg))
 
-socket.on('user left', id => {
-    removeUserCard(id)
-})
+socket.on('user joined', user => createUserCard(user))
+
+socket.on('user left', id => removeUserCard(id))
 
 function login() {
-    socket.emit('new user', userName.value)
-}
-
-function addUser() {
-    socket.emit('add user', 'sabino')
+    socket.emit('new user', $userName.value, (data) => {
+        $frm.style.visibility = 'visible'
+        $logged.style.display = 'block'
+        document.getElementById('user').innerText = data
+        $login.style.display = 'none'
+    })
 }
 
 
@@ -38,7 +40,7 @@ function createUserCard(user) {
     card.id = user.id
     card.classList.add('badge', 'mb-1', 'bg-primary')
     
-    usersCard.append(card)
+    $usersCard.append(card)
 }
 
 function removeUserCard(id) {
@@ -63,13 +65,15 @@ function addMessage(msg) {
         `
     div.classList.add('card', 'p-3', 'm-2')
     div.innerHTML = template
-    messages.append(div)
+    $messages.append(div)
 }
 
-const frm = document.getElementById('frmMsg')
-frm.addEventListener('submit', e => {
+$frm.addEventListener('submit', e => {
     e.preventDefault()
     let input = e.target.elements.messageSend
-    console.log(input.value)
     socket.emit('message', input.value)
+    input.value = ''
+    input.focus()
+
+    $messages.scrollTop = messages.scrollHeight
 })

@@ -18,18 +18,22 @@ io.on('connection', socket => {
     let id = uuidv4()
     socket.emit('logged users', users) 
     
-    socket.on('new user', userName => {    
+    socket.on('new user', (userName, callBck) => {    
         socket.user = userName
         socket.broadcast.emit('user joined',{ userName, id })
         socket.broadcast.emit('message',formatMessage('Chat socketIO', `${userName} just joined`))
         users.push({ userName, id })
+        callBck(userName)
     })
     
     socket.on('disconnect', () => {
+        let user = users.find(user => user.id === id)
+        if (user) users.splice(users.indexOf(user), 1)
         socket.broadcast.emit('user left', id)
+        socket.broadcast.emit('message',formatMessage('Chat socketIO', `${socket.userName} just left`))
+
     })
 
-   
     socket.on('message', msg => {
         io.emit('message', formatMessage(socket.user, msg))
     })
